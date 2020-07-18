@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DesafioMundi.Entities;
 using Microsoft.AspNetCore.Mvc;
+using MundiAPI.PCL;
+using MundiAPI.PCL.Models;
 
 namespace DesafioMundi.Controllers
 {
@@ -12,22 +15,49 @@ namespace DesafioMundi.Controllers
     {
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public ActionResult<IEnumerable<Customer>> Get()
         {
-            return new string[] { "value1", "value2" };
+            string _basicAuthUserName = "sk_test_alLk7EFV2iJ0dm9w";
+            string _basicAuthPassword = "";
+            var client = new MundiAPIClient(_basicAuthUserName, _basicAuthPassword); //conecta
+            var response = client.Customers.GetCustomers();                             //faz requisição
+            List<Customer> customer = new List<Customer>();
+            foreach (var cus in response.Data.Select(x => x))
+            {
+                customer.Add(new Customer { Name = cus.Name, Email = cus.Email, Id = cus.Id, Document= cus.Document, Type=cus.Type});
+            }
+            return customer.ToList();
+
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        public ActionResult<Customer> Get(string id)
         {
-            return "value";
+           string _basicAuthUserName = "sk_test_alLk7EFV2iJ0dm9w";
+            string _basicAuthPassword = "";
+            var client = new MundiAPIClient(_basicAuthUserName, _basicAuthPassword);
+            var response = client.Customers.GetCustomer(id);
+
+
+            return new Customer 
+            { 
+                Name =response.Name, Email =response.Email, Id =response.Id, Document = response.Document, Type =response.Type 
+            };
+
+            // return "value";
         }
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] Customer customer)
         {
+            var teste = new Customer 
+            {
+                Name = customer.Name, Email = customer.Email, Id = customer.Id, Document = customer.Document, Type = customer.Type 
+            };
+            
+            
         }
 
         // PUT api/values/5
