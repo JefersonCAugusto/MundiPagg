@@ -1,6 +1,7 @@
 ﻿using DesafioMundi.Entities;
 using DesafioMundi.Services.Interfaces;
 using MundiAPI.PCL;
+using MundiAPI.PCL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,17 +27,54 @@ namespace DesafioMundi.Services
 
         public Customer GetCustomer(string id)
         {
-            throw new NotImplementedException();
+            string _basicAuthUserName = "sk_test_alLk7EFV2iJ0dm9w";
+            string _basicAuthPassword = "";
+            var client = new MundiAPIClient(_basicAuthUserName, _basicAuthPassword);
+            var response = client.Customers.GetCustomer(id);
+
+
+            return new Customer
+            {
+                Name = response.Name,
+                Email = response.Email,
+                Id = response.Id,
+                Document = response.Document,
+                Type = response.Type
+            };
         }
 
         public string PostCustomer(Customer customer)
         {
-            throw new NotImplementedException();
+            string _basicAuthUserName = "sk_test_alLk7EFV2iJ0dm9w";
+            string _basicAuthPassword = "";
+            var client = new MundiAPIClient(_basicAuthUserName, _basicAuthPassword);
+            var create = new CreateCustomerRequest
+            {
+                Name = customer.Name,
+                Email = customer.Email,
+                Document = customer.Document,
+                Gender = customer.Gender,
+                Type = customer.Type
+            };
+            var response = client.Customers.CreateCustomer(create);
+            return response.Id;
         }
 
         public void PutCustomer(string id, Customer value)
         {
-            throw new NotImplementedException();
+            string _basicAuthUserName = "sk_test_alLk7EFV2iJ0dm9w";
+            string _basicAuthPassword = "";
+            var client = new MundiAPIClient(_basicAuthUserName, _basicAuthPassword);
+            var getCustomer = client.Customers.GetCustomer(id);
+
+            var update = new UpdateCustomerRequest
+            {
+                Name = value.Name,
+                Email = value.Email,
+                Document = value.Document
+            };
+
+            var response = client.Customers.UpdateCustomer(id, update);
         }
     }
 }
