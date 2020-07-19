@@ -38,10 +38,19 @@ namespace DesafioMundi.Controllers
         }
 
         // POST api/values
-        [HttpPost]
+        [HttpPost] 
         public ActionResult<string> Post([FromBody] Customer customer)
         {
             return _customerService.PostCustomer(customer);
+        }
+
+        [HttpPost("{card}")]
+        public ActionResult<string> Post([FromBody] CreditCard creditCard)
+        {
+            //não sei se esse é o melhor local para essa action, mas como no pacote Nuget a criação do catão estava dentro 
+            //de customer, resolvi fazer da mesma forma.(client.Customers.CreateCard) 
+            string idCard= _customerService.CreateCard(creditCard);
+            return idCard; 
         }
 
         // PUT api/values/5

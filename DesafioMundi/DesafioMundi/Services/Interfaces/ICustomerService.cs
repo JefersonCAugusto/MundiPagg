@@ -13,6 +13,7 @@ namespace DesafioMundi.Services.Interfaces
         Customer GetCustomer(string id);
         string PostCustomer(Customer customer);
         void PutCustomer(string id, Customer value);
+        string CreateCard(CreditCard creditCard );
 
     }
 }

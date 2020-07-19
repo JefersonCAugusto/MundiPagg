@@ -15,8 +15,8 @@ namespace DesafioMundi.Services
         {
             string _basicAuthUserName = "sk_test_alLk7EFV2iJ0dm9w";
             string _basicAuthPassword = "";
-            var client = new MundiAPIClient(_basicAuthUserName, _basicAuthPassword); //conecta
-            var response = client.Customers.GetCustomers();                             //faz requisição
+            var client = new MundiAPIClient(_basicAuthUserName, _basicAuthPassword);  
+            var response = client.Customers.GetCustomers();                             
             List<Customer> customer = new List<Customer>();
             foreach (var cus in response.Data.Select(x => x))
             {
@@ -76,5 +76,28 @@ namespace DesafioMundi.Services
 
             var response = client.Customers.UpdateCustomer(id, update);
         }
+
+        public string CreateCard(CreditCard creditCard)
+        {
+            string _basicAuthUserName = "sk_test_alLk7EFV2iJ0dm9w";
+            string _basicAuthPassword = "";
+            var client = new MundiAPIClient(_basicAuthUserName, _basicAuthPassword); //conecta
+
+            var createCardRequest = new CreateCardRequest
+            {
+                Brand = creditCard.Brand,
+                Number = creditCard.Number,
+                ExpMonth = creditCard.ExpMonth,
+                ExpYear = creditCard.ExpYear,
+                Cvv = creditCard.CVV,
+
+            };
+
+            var createCard = client.Customers.CreateCard(creditCard.CustomerId, createCardRequest);
+
+
+            return createCard.Id;
+        }
+
     }
 }
