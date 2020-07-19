@@ -52,24 +52,47 @@ namespace DesafioMundi.Controllers
         [HttpPost]
         public void Post([FromBody] Customer customer)
         {
-            var teste = new Customer 
+            string _basicAuthUserName = "sk_test_alLk7EFV2iJ0dm9w";
+            string _basicAuthPassword = "";
+            var client = new MundiAPIClient(_basicAuthUserName, _basicAuthPassword);
+            var create = new CreateCustomerRequest
             {
-                Name = customer.Name, Email = customer.Email, Id = customer.Id, Document = customer.Document, Type = customer.Type 
+                Name = customer.Name,
+                Email = customer.Email,
+                Document= customer.Document,
+                Gender= customer.Gender,
+                Type= customer.Type
             };
-            
-            
+            var response = client.Customers.CreateCustomer(create);
+
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public void Put(string id, [FromBody] Customer value)
         {
+            string _basicAuthUserName = "sk_test_alLk7EFV2iJ0dm9w";
+            string _basicAuthPassword = "";
+            var client = new MundiAPIClient(_basicAuthUserName, _basicAuthPassword);
+            var getCustomer = client.Customers.GetCustomer(id);
+           
+            var update = new UpdateCustomerRequest 
+            { 
+                Name = value.Name, 
+                Email = value.Email,
+                Document= value.Document
+            };
+
+            var response = client.Customers.UpdateCustomer(id, update);
+            //não consegui fazer funcionar o update. existe um 3º parâmetro no "UpdateCustomer" que não consegui entender.
         }
 
         // DELETE api/values/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+         //nao consegui encontrar método para deletar.
+
         }
     }
 }
