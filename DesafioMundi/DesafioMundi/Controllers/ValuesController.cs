@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DesafioMundi.Entities;
+using DesafioMundi.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using MundiAPI.PCL;
 using MundiAPI.PCL.Models;
@@ -13,20 +14,19 @@ namespace DesafioMundi.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+       private readonly ICustomerService _customerService;
+
+        public ValuesController(ICustomerService customerService)
+        {
+            _customerService = customerService;
+        }
+
+
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<Customer>> Get()
         {
-            string _basicAuthUserName = "sk_test_alLk7EFV2iJ0dm9w";
-            string _basicAuthPassword = "";
-            var client = new MundiAPIClient(_basicAuthUserName, _basicAuthPassword); //conecta
-            var response = client.Customers.GetCustomers();                             //faz requisição
-            List<Customer> customer = new List<Customer>();
-            foreach (var cus in response.Data.Select(x => x))
-            {
-                customer.Add(new Customer { Name = cus.Name, Email = cus.Email, Id = cus.Id, Document= cus.Document, Type=cus.Type});
-            }
-            return customer.ToList();
+            return _customerService.GetCustomer().ToList();
 
         }
 
@@ -44,13 +44,11 @@ namespace DesafioMundi.Controllers
             { 
                 Name =response.Name, Email =response.Email, Id =response.Id, Document = response.Document, Type =response.Type 
             };
-
-            // return "value";
         }
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] Customer customer)
+        public ActionResult<string> Post([FromBody] Customer customer)
         {
             string _basicAuthUserName = "sk_test_alLk7EFV2iJ0dm9w";
             string _basicAuthPassword = "";
@@ -64,7 +62,7 @@ namespace DesafioMundi.Controllers
                 Type= customer.Type
             };
             var response = client.Customers.CreateCustomer(create);
-
+            return response.Id;
         }
 
         // PUT api/values/5
@@ -92,7 +90,6 @@ namespace DesafioMundi.Controllers
         public void Delete(int id)
         {
          //nao consegui encontrar método para deletar.
-
         }
     }
 }
