@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using DesafioMundi.Entities;
@@ -12,11 +13,11 @@ namespace DesafioMundi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ValuesController : ControllerBase
+    public class CustomersController : ControllerBase
     {
        private readonly ICustomerService _customerService;
 
-        public ValuesController(ICustomerService customerService)
+        public CustomersController(ICustomerService customerService)
         {
             _customerService = customerService;
         }
@@ -42,16 +43,10 @@ namespace DesafioMundi.Controllers
         public ActionResult<string> Post([FromBody] Customer customer)
         {
             return _customerService.PostCustomer(customer);
+
         }
 
-        [HttpPost("{card}")]
-        public ActionResult<string> Post([FromBody] CreditCard creditCard)
-        {
-            //não sei se esse é o melhor local para essa action, mas como no pacote Nuget a criação do catão estava dentro 
-            //de customer, resolvi fazer da mesma forma.(client.Customers.CreateCard) 
-            string idCard= _customerService.CreateCard(creditCard);
-            return idCard; 
-        }
+       
 
         // PUT api/values/5
         [HttpPut("{id}")]
