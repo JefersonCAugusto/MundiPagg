@@ -1,5 +1,6 @@
 ﻿using DesafioMundi.Entities;
 using DesafioMundi.Services.Interfaces;
+using Microsoft.EntityFrameworkCore.Query.Expressions;
 using MundiAPI.PCL;
 using MundiAPI.PCL.Models;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DesafioMundi.Services
 {
-    public class CardService
+    public class CardService :ICardService
     {
         private readonly ICustomerService _customerService;
 
@@ -42,6 +43,38 @@ namespace DesafioMundi.Services
                 throw new InvalidOperationException("Não foi possivel criar cartão");
             return createCard.Id;
         }
+        public IEnumerable<CreditCard> GetCards(string id)
+        {
+            string _basicAuthUserName = "sk_test_alLk7EFV2iJ0dm9w";
+            string _basicAuthPassword = "";
+            var client = new MundiAPIClient(_basicAuthUserName, _basicAuthPassword);
+            var cards = client.Customers.GetCards(id);
+
+            var idCard = cards.Data.Select(x=>x.Id).ToList(); 
+            if (idCard.Any(x=>x.Equals(null)))//verifica se existe cartão
+                throw new InvalidOperationException("Falha ao recuperar cartão");
+            var cardIdList = new List<CreditCard>();
+            foreach (var x1 in cards.Data)
+            {
+                cardIdList.Add(new CreditCard {Id=x1.Id});
+            }
+            return cardIdList;
+        }
+        public List<CreditCard> GetCards(string idCustomer, string idCard)
+        {
+            string _basicAuthUserName = "sk_test_alLk7EFV2iJ0dm9w";
+            string _basicAuthPassword = "";
+            var client = new MundiAPIClient(_basicAuthUserName, _basicAuthPassword);
+            var cards = client.Customers.GetCard(idCustomer, idCard);
+            //falta testar se os dados de card e customer estao correFtos
+            var creditCard = new List<CreditCard>();
+            creditCard.Add(new CreditCard
+            {
+                Brand = cards.Brand,
+                LestFourNumbers = cards.LastFourDigits
+            }); 
+           return creditCard;
+        } 
     }
 
 }

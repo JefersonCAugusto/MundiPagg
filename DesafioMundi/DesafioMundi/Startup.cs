@@ -28,6 +28,7 @@ namespace DesafioMundi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddScoped<ICardService, CardService>();
             services.AddScoped<ICustomerService, CustomerService>();
         }
 
