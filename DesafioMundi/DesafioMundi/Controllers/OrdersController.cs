@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using DesafioMundi.Entities;
 using Microsoft.AspNetCore.Http;
@@ -18,50 +19,61 @@ namespace DesafioMundi.Controllers
         [HttpGet]
         public ActionResult<string> Get()
         {
-            return "esta funcionando";
+            return "Esta funcionando";
         }
 
         [HttpPost("{customerId}/{cardId}")]
-        public ActionResult<GetChargeResponse> CreateOrder(string customerId, string cardId, [FromBody] Item item)
+        public ActionResult<GetOrderResponse> CreateOrder(string customerId, string cardId, [FromBody] Item[] item)
         {
+            //validar token
             string _basicAuthUserName = "sk_test_alLk7EFV2iJ0dm9w";
             string _basicAuthPassword = "";
             var client = new MundiAPIClient(_basicAuthUserName, _basicAuthPassword);
 
-            var items = new List<CreateOrderItemRequest>();
-           
-                items.Add(new CreateOrderItemRequest
+            //lista de itens 
+
+            //lista de itens 
+            var oss = new List<CreateOrderItemRequest>();
+            foreach (var it in item)
+            {
+                oss.Add(new CreateOrderItemRequest()
                 {
-                    Amount = item.Amount,
-                    Description = item.Description,
-                    Quantity = item.Quantity
+                    Description = it.Description,
+                    Amount = it.Amount,
+                    Quantity = it.Quantity
                 });
+            }
 
-            var payment = new CreatePaymentRequest
-            {
-                PaymentMethod = "credit_card",
-                CreditCard = new CreateCreditCardPaymentRequest
+
+            //lista meios de pagamentos
+            var payments = new List<CreatePaymentRequest>()
                 {
-                    CardId = cardId,
-                    Card = new CreateCardRequest
+                    new CreatePaymentRequest()
                     {
-                        Cvv = "323"
+                        PaymentMethod = "credit_card",
+                        CreditCard = new CreateCreditCardPaymentRequest
+                        {
+                            CardId= "card_nKJEMNgcVOh0j2b7",
+                            Card = new CreateCardRequest
+                            {
+                                Cvv= "123"
+                            }
+                        }
+
                     }
-                }
-            };
+                };
 
-         
-            var request = new CreateChargeRequest()
+            //criação do pedido
+            var order = new CreateOrderRequest()
             {
-                Amount = item.Amount,
-                Payment = payment,
-                CustomerId = customerId
-
+                Items = oss,
+                CustomerId=customerId,
+                Payments=payments
             };
+           
+            var pedido = client.Orders.CreateOrder(order);
+            return pedido;
 
-            var response = client.Charges.CreateCharge(request);
-            return response;
         }
-       
     }
 }
