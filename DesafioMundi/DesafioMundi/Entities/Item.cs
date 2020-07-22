@@ -8,10 +8,10 @@ namespace DesafioMundi.Entities
 {
     public class Item
     {
+        public string ID { get; set; }
         public int Amount { get; set; }
         public string Description { get; set; }
-        public int Quantity { get; set; }
-        public string CVV { get; set; }
+        public int Quantity { get; set; } 
         public string Categoria { get; set; }
     }
 }

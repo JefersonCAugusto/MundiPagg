@@ -10,7 +10,6 @@ namespace DesafioMundi.Entities
         public string Type { get; set; } // indivicual ou company (Criar Enum)
         public string Gender { get; set; } //male ou female (criar enum)
         public string Document { get; set; } //CPF ou CNPJ
-        public TagRFID TagRFID { get; set; } // cadastrar a TAg que passou
         public ICollection<CreditCard> creditCard { get; set; } // reelacionamento com cartão
     }
 }
