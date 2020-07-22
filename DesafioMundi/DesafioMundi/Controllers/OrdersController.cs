@@ -22,39 +22,46 @@ namespace DesafioMundi.Controllers
         }
 
         [HttpPost("{customerId}/{cardId}")]
-        public ActionResult<CreateOrderRequest> CreateOrder(string customerId, string cardId, [FromBody] Item[] item)
+        public ActionResult<GetChargeResponse> CreateOrder(string customerId, string cardId, [FromBody] Item item)
         {
             string _basicAuthUserName = "sk_test_alLk7EFV2iJ0dm9w";
             string _basicAuthPassword = "";
             var client = new MundiAPIClient(_basicAuthUserName, _basicAuthPassword);
 
             var items = new List<CreateOrderItemRequest>();
-            foreach (Item itemUnit in item)
+           
                 items.Add(new CreateOrderItemRequest
                 {
-                    Amount = itemUnit.Amount,
-                    Description = itemUnit.Description,
-                    Quantity = itemUnit.Quantity
+                    Amount = item.Amount,
+                    Description = item.Description,
+                    Quantity = item.Quantity
                 });
-            var payment = new List<CreatePaymentRequest>
+
+            var payment = new CreatePaymentRequest
             {
-               new CreatePaymentRequest
-               {
-                   PaymentMethod = "credit_card",
-                   CreditCard = new CreateCreditCardPaymentRequest
+                PaymentMethod = "credit_card",
+                CreditCard = new CreateCreditCardPaymentRequest
                 {
-                    CardId = cardId
+                    CardId = cardId,
+                    Card = new CreateCardRequest
+                    {
+                        Cvv = "323"
+                    }
                 }
-               }
             };
-            var orderRequest = new CreateOrderRequest
+
+         
+            var request = new CreateChargeRequest()
             {
-                Items = items,
-                CustomerId = customerId,
-                Payments = payment
+                Amount = item.Amount,
+                Payment = payment,
+                CustomerId = customerId
+
             };
-            return orderRequest;
+
+            var response = client.Charges.CreateCharge(request);
+            return response;
         }
-    
+       
     }
 }
