@@ -34,7 +34,7 @@ namespace DesafioMundi.Services
                     Quantity = items.Quantity
                 }); 
             }
-             
+
             //lista meios de pagamentos
             var payments = new List<CreatePaymentRequest>()
             {
@@ -43,7 +43,7 @@ namespace DesafioMundi.Services
                     PaymentMethod = "credit_card",
                     CreditCard = new CreateCreditCardPaymentRequest
                     {
-                        CardId= "card_nKJEMNgcVOh0j2b7" 
+                        CardId= cardId
                     } 
                 }
             }; 
@@ -68,8 +68,10 @@ namespace DesafioMundi.Services
                 ChargeId = pedido.Charges
                                  .Where(x => x.PaymentMethod == "credit_card")
                                  .FirstOrDefault().ToString(),
+                Status= pedido.Status,
+               
             };
             return response;
         }
     }
-    }
+}

@@ -1,4 +1,6 @@
-﻿namespace DesafioMundi.Entities
+﻿using System.Collections.Generic;
+
+namespace DesafioMundi.Entities
 {
     public class CreditCard
     {
@@ -9,8 +11,10 @@
         public string  Id { get; set; }
         public string Brand { get; set; }
         public string LestFourNumbers { get; set; }  //recupera com os 4 ultimos digitos do cartao
-        public Customer Customer { get; set; }
 
+        public string CustomerID  { get; set; }
+        public Customer Customer { get; set; }
+        public ICollection<Charge> Charges { get; set; }
 
     }
 }
