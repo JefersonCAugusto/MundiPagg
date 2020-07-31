@@ -1,4 +1,5 @@
 ﻿using DesafioMundi.Entities;
+using DesafioMundi.Entities.Response;
 using DesafioMundi.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -31,7 +32,7 @@ namespace DesafioMundi.Controllers
         }
 
         [HttpPost] 
-        public ActionResult<string> Post([FromBody] Customer customer)
+        public ActionResult<CustomerResponse> Post([FromBody] Customer customer)
         {
             return _customerService.PostCustomer(customer);
         }

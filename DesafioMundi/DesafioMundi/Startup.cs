@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DesafioMundi.Context;
 using DesafioMundi.Services;
 using DesafioMundi.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -31,6 +33,8 @@ namespace DesafioMundi
             services.AddScoped<ICardService, CardService>();
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IOrderService, OrderService>();
+            services.AddDbContext<MundiContext>(options => options
+                .UseSqlServer(Configuration["ConexaoSql:StringConnect"]));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

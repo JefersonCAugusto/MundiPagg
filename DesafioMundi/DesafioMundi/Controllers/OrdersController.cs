@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
-using DesafioMundi.Entities;
+﻿using DesafioMundi.Entities;
 using DesafioMundi.Services.Interfaces;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using MundiAPI.PCL;
-using MundiAPI.PCL.Models;
-
+using System.Collections.Generic;
+using DesafioMundi.Entities.Response;
 namespace DesafioMundi.Controllers
 {
     [Route("api/[controller]")]
@@ -25,13 +17,18 @@ namespace DesafioMundi.Controllers
         }
 
         [HttpGet]
-        public ActionResult<string> Get()
+        public ActionResult<Dictionary<string,string>> Get()
         {
-            return "Esta funcionando";
+            return _orderService.GetAll();
+         }
+        [HttpGet("{id}")]
+        public ActionResult<List<string>> Get(string id)
+        {
+            return _orderService.GetForId(id);
         }
 
         [HttpPost("{customerId}/{cardId}")]
-        public ActionResult<Order> CreateOrder(string customerId, string cardId, [FromBody] Item[] item)
+        public ActionResult<OrderResponse> CreateOrder(string customerId, string cardId, [FromBody] Item[] item)
         {
            return _orderService.CreateOrder(customerId, cardId, item);
         }

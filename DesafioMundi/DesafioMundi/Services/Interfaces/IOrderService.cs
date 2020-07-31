@@ -1,4 +1,5 @@
 ﻿using DesafioMundi.Entities;
+using DesafioMundi.Entities.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,9 @@ namespace DesafioMundi.Services.Interfaces
 {
     public interface IOrderService
     {
-        Order CreateOrder(string customerId, string cardId, Item[] item);
+        OrderResponse CreateOrder(string customerId, string cardId, Item[] item);
+        Dictionary<string, string> GetAll();
+        List<string> GetForId(string id);
+
     }
 }

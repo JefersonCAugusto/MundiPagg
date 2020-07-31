@@ -1,4 +1,5 @@
-﻿using DesafioMundi.Entities;
+﻿using DesafioMundi.Context;
+using DesafioMundi.Entities;
 using DesafioMundi.Services.Interfaces;
 using Microsoft.EntityFrameworkCore.Query.Expressions;
 using MundiAPI.PCL;
@@ -7,11 +8,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using DesafioMundi.Entities.Response;
 namespace DesafioMundi.Services
 {
     public class CardService :ICardService
     {
+        private readonly MundiContext _context;
         private readonly ICustomerService _customerService;
 
         public CardService(ICustomerService customerService)
@@ -19,7 +21,7 @@ namespace DesafioMundi.Services
             _customerService = customerService;
         }
 
-        public string CreateCard(string id, CreditCard creditCard)
+        public CreditCardResponse CreateCard(string id, CreditCard creditCard)
         {
             var customer = _customerService.GetCustomer(id);
             string _basicAuthUserName = "sk_test_alLk7EFV2iJ0dm9w";
@@ -38,10 +40,25 @@ namespace DesafioMundi.Services
             };
 
             var createCard = client.Customers.CreateCard(id, createCardRequest);
+           
 
             if (string.IsNullOrEmpty(createCard.Id))
                 throw new InvalidOperationException("Não foi possivel criar cartão");
-            return createCard.Id;
+           
+            var saveCard = new CreditCard()
+            {
+                Id = createCard.Id,
+                Brand = createCard.Brand,
+                LestFourNumbers = creditCard.Number.Substring(creditCard.Number.Length - 4),
+                CustomerID =id
+               
+
+            };
+
+            _context.CreditCards.Add(saveCard);
+            _context.SaveChanges();
+            return new CreditCardResponse() { Id = createCard.Id };
+
         }
         public IEnumerable<CreditCard> GetCards(string id)
         {

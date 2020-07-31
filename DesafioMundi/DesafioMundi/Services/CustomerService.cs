@@ -1,4 +1,6 @@
-﻿using DesafioMundi.Entities;
+﻿using DesafioMundi.Context;
+using DesafioMundi.Entities;
+using DesafioMundi.Entities.Response;
 using DesafioMundi.Services.Interfaces;
 using MundiAPI.PCL;
 using MundiAPI.PCL.Models;
@@ -9,11 +11,19 @@ namespace DesafioMundi.Services
 {
     public class CustomerService : ICustomerService
     {
+        private readonly MundiContext _context;
+
+        public CustomerService(MundiContext context)
+        {
+            _context = context;
+        }
+
         public IEnumerable<Customer> GetCustomer()
         {
             string _basicAuthUserName = "sk_test_alLk7EFV2iJ0dm9w";
             string _basicAuthPassword = "";
             var client = new MundiAPIClient(_basicAuthUserName, _basicAuthPassword);  
+
             var response = client.Customers.GetCustomers();                             
             List<Customer> customer = new List<Customer>();
             foreach (var cus in response.Data.Select(x => x))
@@ -31,7 +41,7 @@ namespace DesafioMundi.Services
             var response = client.Customers.GetCustomer(id);
 
 
-            return new Customer
+           var customerResponse = new Customer
             {
                 Name = response.Name,
                 Email = response.Email,
@@ -39,9 +49,11 @@ namespace DesafioMundi.Services
                 Document = response.Document,
                 Type = response.Type
             };
+            return customerResponse;
+
         }
 
-        public string PostCustomer(Customer customer)
+        public CustomerResponse PostCustomer(Customer customer)
         {
             string _basicAuthUserName = "sk_test_alLk7EFV2iJ0dm9w";
             string _basicAuthPassword = "";
@@ -54,14 +66,26 @@ namespace DesafioMundi.Services
                 Gender = customer.Gender,
                 Type = customer.Type
             };
+          
             var response = client.Customers.CreateCustomer(create);
-            return response.Id;
+
+            if (!string.IsNullOrEmpty(response.Id))
+            {
+                var saveCustomer = customer;
+                saveCustomer.Id = response.Id;
+                _context.Customers.Add(saveCustomer);
+                _context.SaveChanges();
+            }
+             
+            return new CustomerResponse {Id= response.Id };
+
         }
 
         public void PutCustomer(string id, Customer value)
         {
             string _basicAuthUserName = "sk_test_alLk7EFV2iJ0dm9w";
             string _basicAuthPassword = "";
+
             var client = new MundiAPIClient(_basicAuthUserName, _basicAuthPassword);
             var getCustomer = client.Customers.GetCustomer(id);
 

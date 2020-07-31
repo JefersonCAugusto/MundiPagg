@@ -1,4 +1,5 @@
 ﻿using DesafioMundi.Entities;
+using DesafioMundi.Entities.Response;
 using System.Collections.Generic;
 
 namespace DesafioMundi.Services.Interfaces
@@ -8,9 +9,9 @@ namespace DesafioMundi.Services.Interfaces
 
         IEnumerable<Customer> GetCustomer();
         Customer GetCustomer(string id);
-        string PostCustomer(Customer customer);
+        CustomerResponse PostCustomer(Customer customer);
         void PutCustomer(string id, Customer value);
-       // string CreateCard(CreditCard creditCard );
+        
 
     }
 }

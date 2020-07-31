@@ -3,7 +3,7 @@ using DesafioMundi.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
-
+using DesafioMundi.Entities.Response;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace DesafioMundi.Controllers
@@ -28,7 +28,7 @@ namespace DesafioMundi.Controllers
         }
 
         [HttpPost("{id}")]
-        public ActionResult<string> Post(string id, [FromBody] CreditCard creditCard)
+        public ActionResult<CreditCardResponse> Post(string id, [FromBody] CreditCard creditCard)
         {
             return _cardService.CreateCard(id, creditCard);
         }
