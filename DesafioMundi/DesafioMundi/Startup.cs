@@ -34,7 +34,7 @@ namespace DesafioMundi
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddDbContext<MundiContext>(options => options
-                .UseSqlServer(Configuration["ConexaoSql:StringConnect"]));
+                .UseSqlServer(Configuration.GetConnectionString("StringConnect")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

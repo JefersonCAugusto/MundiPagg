@@ -8,19 +8,19 @@ namespace DesafioMundi.Context.ConfigFluentAPI
     {
         public void Configure(EntityTypeBuilder<CreditCard> builder)
         { 
-            builder.HasKey(x => x.Id);
-
+            builder.HasKey(x => x.Id); 
             builder.Ignore(x => x.ExpMonth)
                    .Ignore(x => x.CVV)
                    .Ignore(x => x.ExpMonth)
                    .Ignore(x => x.ExpYear)
                    .Ignore(x => x.Number);
 
-
-
             builder.Property(x => x.Id).IsRequired().ValueGeneratedNever(); 
-            builder.Property(x => x.LestFourNumbers).IsRequired();
-            builder.Property(x => x.Brand).IsRequired();
+            builder.Property(x => x.LestFourNumbers).IsRequired().HasMaxLength(4);
+            builder.Property(x => x.Brand).IsRequired().HasMaxLength(15);
+
+
+
 
         }
  

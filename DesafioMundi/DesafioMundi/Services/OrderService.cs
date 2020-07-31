@@ -93,21 +93,23 @@ namespace DesafioMundi.Services
                 {
                     Amount = listCharges.Amount,
                     Code = listCharges.Code,
-                    CreditCardId = cardId,
+                    CreditCard=_context.CreditCards.Find(cardId),
+                    Customer= _context.Customers.Find(customerId),
+                   //CreditCardId = cardId,
                     Id = listCharges.Id,
-                    CustomerId = customerId,
-                    OrderId = pedido.Id,
+                   // CustomerId = customerId,
+                  
                     Order = new Order()
                     {
                         Id = pedido.Id,
                         Code = pedido.Code,
                         Status = pedido.Status,
-                        ChargeId = listCharges.Id,
+                       // ChargeId = listCharges.Id,
                         Items=saveItem 
 
                     },
                     
-                });
+                });;
 
                 _context.SaveChanges();
             } 

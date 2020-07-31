@@ -16,9 +16,10 @@ namespace DesafioMundi.Services
         private readonly MundiContext _context;
         private readonly ICustomerService _customerService;
 
-        public CardService(ICustomerService customerService)
+        public CardService(ICustomerService customerService, MundiContext context)
         {
             _customerService = customerService;
+            _context = context;
         }
 
         public CreditCardResponse CreateCard(string id, CreditCard creditCard)
