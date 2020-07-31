@@ -25,6 +25,7 @@
       "DesafioMundi/1.0.0": {
         "dependencies": {
           "Microsoft.AspNetCore.App": "2.2.0",
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "2.2.0",
           "Microsoft.AspNetCore.Razor.Design": "2.2.0",
           "Microsoft.NETCore.App": "2.2.0",
           "MundiAPI.PCL": "0.16.12",

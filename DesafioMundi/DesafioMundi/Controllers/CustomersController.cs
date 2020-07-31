@@ -5,9 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using Microsoft.AspNetCore.Authorization;
 namespace DesafioMundi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CustomersController : ControllerBase

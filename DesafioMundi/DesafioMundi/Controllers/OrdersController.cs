@@ -3,8 +3,11 @@ using DesafioMundi.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using DesafioMundi.Entities.Response;
+using Microsoft.AspNetCore.Authorization;
+
 namespace DesafioMundi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class OrdersController : ControllerBase
