@@ -1,9 +1,6 @@
 ﻿using DesafioMundi.Entities;
 using DesafioMundi.Entities.Response;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DesafioMundi.Services.Interfaces
 {

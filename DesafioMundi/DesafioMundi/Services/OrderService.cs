@@ -1,13 +1,11 @@
-﻿using DesafioMundi.Entities;
+﻿using DesafioMundi.Context;
+using DesafioMundi.Entities;
+using DesafioMundi.Entities.Response;
+using DesafioMundi.Services.Interfaces;
 using MundiAPI.PCL;
 using MundiAPI.PCL.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using DesafioMundi.Services.Interfaces;
-using DesafioMundi.Context;
-using DesafioMundi.Entities.Response;
 
 namespace DesafioMundi.Services
 {
@@ -77,7 +75,8 @@ namespace DesafioMundi.Services
                 var saveItem = new List<Item>();
                 foreach (var items in listItems)
                 {
-                  saveItem.Add(new Item() { 
+                  saveItem.Add(new Item() 
+                  { 
                             Amount = items.Amount,
                             Description = items.Description,
                             Id = items.Id,
@@ -85,31 +84,57 @@ namespace DesafioMundi.Services
                            
 
 
-                        }
+                  }
                     );
                 }
                 //salva dados
-                _context.Charges.Add(new Charge()
-                {
-                    Amount = listCharges.Amount,
-                    Code = listCharges.Code,
-                    CreditCard=_context.CreditCards.Find(cardId),
-                    Customer= _context.Customers.Find(customerId),
-                   //CreditCardId = cardId,
-                    Id = listCharges.Id,
-                   // CustomerId = customerId,
-                  
-                    Order = new Order()
-                    {
-                        Id = pedido.Id,
-                        Code = pedido.Code,
-                        Status = pedido.Status,
-                       // ChargeId = listCharges.Id,
-                        Items=saveItem 
 
-                    },
+                var customer = _context.Customers.Find(customerId);
+                customer.Charges = new List<Charge>()
+                {
+                    new Charge
+                        {
+                            Amount = listCharges.Amount,
+                            Code = listCharges.Code,
+                            //CreditCard = _context.CreditCards.Find(cardId),
+                            // Customer = _context.Customers.Find(customerId),
+
+                            Order = new Order()
+                            {
+                                Id = pedido.Id,
+                                Code = pedido.Code,
+                                Status = pedido.Status,
+                                Items = saveItem
+                            },
+                            Id = listCharges.Id
+                        }
+                };
+
                     
-                });;
+                
+
+
+
+               
+
+                //_context.Charges.Add(new Charge()
+                //{
+                //    Amount = listCharges.Amount,
+                //    Code = listCharges.Code,
+                //    CreditCard=_context.CreditCards.Find(cardId),
+                //    Customer= _context.Customers.Find(customerId), 
+                //    Id = listCharges.Id,
+                     
+                //    Order = new Order()
+                //    {
+                //        Id = pedido.Id,
+                //        Code = pedido.Code,
+                //        Status = pedido.Status, 
+                //        Items=saveItem 
+
+                //    },
+                    
+                //});
 
                 _context.SaveChanges();
             } 

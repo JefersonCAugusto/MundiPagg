@@ -1,14 +1,12 @@
 ﻿using DesafioMundi.Context;
 using DesafioMundi.Entities;
+using DesafioMundi.Entities.Response;
 using DesafioMundi.Services.Interfaces;
-using Microsoft.EntityFrameworkCore.Query.Expressions;
 using MundiAPI.PCL;
 using MundiAPI.PCL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using DesafioMundi.Entities.Response;
 namespace DesafioMundi.Services
 {
     public class CardService :ICardService
@@ -45,23 +43,26 @@ namespace DesafioMundi.Services
 
             if (string.IsNullOrEmpty(createCard.Id))
                 throw new InvalidOperationException("Não foi possivel criar cartão");
-           
-            var saveCard = new CreditCard()
+            //recupera o cliente e dicionar cartão
+            var saveCustomerCard = _context.Customers.Find(id);
+            saveCustomerCard.creditCard.Add(  new CreditCard
             {
                 Id = createCard.Id,
                 Brand = createCard.Brand,
                 LestFourNumbers = creditCard.Number.Substring(creditCard.Number.Length - 4),
-                CustomerID =id
                
-
+            });
+             
+            _context.SaveChanges();
+            return new CreditCardResponse() 
+            { 
+                Id = createCard.Id,
+                Brand = createCard.Brand,
+                LestFourNumbers= creditCard.Number.Substring(creditCard.Number.Length - 4)
             };
 
-            _context.CreditCards.Add(saveCard);
-            _context.SaveChanges();
-            return new CreditCardResponse() { Id = createCard.Id };
-
         }
-        public IEnumerable<CreditCard> GetCards(string id)
+        public IEnumerable<CreditCardResponse> GetCards(string id)
         {
             string _basicAuthUserName = "sk_test_alLk7EFV2iJ0dm9w";
             string _basicAuthPassword = "";
@@ -71,23 +72,31 @@ namespace DesafioMundi.Services
             var idCard = cards.Data.Select(x=>x.Id).ToList(); 
             if (idCard.Any(x=>x.Equals(null)))//verifica se existe cartão
                 throw new InvalidOperationException("Falha ao recuperar cartão");
-            var cardIdList = new List<CreditCard>();
+
+            var cardIdList = new List<CreditCardResponse>();
             foreach (var x1 in cards.Data)
             {
-                cardIdList.Add(new CreditCard {Id=x1.Id});
+                cardIdList.Add(new CreditCardResponse 
+                {
+                    Id=x1.Id,
+                    Brand= x1.Brand,
+                    LestFourNumbers= x1.LastFourDigits
+                });
             }
             return cardIdList;
         }
-        public List<CreditCard> GetCards(string idCustomer, string idCard)
+        public List<CreditCardResponse> GetCards(string idCustomer, string idCard)
         {
             string _basicAuthUserName = "sk_test_alLk7EFV2iJ0dm9w";
             string _basicAuthPassword = "";
             var client = new MundiAPIClient(_basicAuthUserName, _basicAuthPassword);
             var cards = client.Customers.GetCard(idCustomer, idCard);
+
             //falta testar se os dados de card e customer estao correFtos
-            var creditCard = new List<CreditCard>();
-            creditCard.Add(new CreditCard
+            var creditCard = new List<CreditCardResponse>();
+            creditCard.Add(new CreditCardResponse
             {
+                Id= cards.Id,
                 Brand = cards.Brand,
                 LestFourNumbers = cards.LastFourDigits
             }); 

@@ -8,7 +8,7 @@ namespace DesafioMundi.Services.Interfaces
     {
 
         IEnumerable<Customer> GetCustomer();
-        Customer GetCustomer(string id);
+        Customer  GetCustomer(string id);
         CustomerResponse PostCustomer(Customer customer);
         void PutCustomer(string id, Customer value);
         

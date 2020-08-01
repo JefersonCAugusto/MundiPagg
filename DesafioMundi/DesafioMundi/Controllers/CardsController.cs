@@ -21,7 +21,7 @@ namespace DesafioMundi.Controllers
         }
 
         [HttpGet("{idcustomer}/{idcard?}")]
-        public ActionResult<IEnumerable<CreditCard>> Get(string idcustomer, string idcard)
+        public ActionResult<IEnumerable<CreditCardResponse>> Get(string idcustomer, string idcard)
         {
             if (string.IsNullOrEmpty(idcard))
                 return _cardService.GetCards(idcustomer).ToList();

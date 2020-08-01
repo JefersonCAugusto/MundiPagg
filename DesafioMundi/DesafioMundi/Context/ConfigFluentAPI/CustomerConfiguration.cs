@@ -15,10 +15,10 @@ namespace DesafioMundi.Context.ConfigFluentAPI
     
             builder.Property(x => x.Id).ValueGeneratedNever();
             builder.Property(x => x.Name).IsRequired().HasMaxLength(35);
-            builder.Property(x => x.Email).IsRequired().HasMaxLength(30);
-            builder.Property(x => x.Type).HasMaxLength(8);
+            builder.Property(x => x.Email).IsRequired().HasMaxLength(45);
+            builder.Property(x => x.Type).HasMaxLength(15);
             builder.Property(x => x.Document).HasMaxLength(20);
-            builder.Property(x => x.Gender).HasMaxLength(7); 
+            builder.Property(x => x.Gender).HasMaxLength(10); 
 
         }
     }

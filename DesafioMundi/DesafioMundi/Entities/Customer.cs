@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace DesafioMundi.Entities
 {
     public class Customer
     {
         public string Name { get; set; } 
-        public string Id { get; set; }  // esse id será o Id fornecido pela API da mundi
+        public string Id { get; set; }   
         public string Email { get; set; }// dado unico
         public string Type { get; set; } // indivicual ou company (Criar Enum)
         public string Gender { get; set; } //male ou female (criar enum)

@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using DesafioMundi.Entities;
+﻿using DesafioMundi.Entities;
+using DesafioMundi.Entities.AuthIdentity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
+using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,22 +15,30 @@ namespace DesafioMundi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthsController : ControllerBase
+    public class AuthController : ControllerBase
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly AppSettings _appSettings;
 
-        public AuthsController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, IOptions<AppSettings> appSettings)
+        public AuthController(SignInManager<IdentityUser> signInManager
+                                , UserManager<IdentityUser> userManager
+                                , IOptions<AppSettings> appSettings)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _appSettings = appSettings.Value;
         }
 
+
+        [HttpGet]
+        public ActionResult Get()
+        {
+            return Ok("Api Ok");
+        }
         // POST api/<AuthsController>
         [HttpPost("NewAcount")]
-        public async Task<ActionResult> RegistrarAsync([FromBody] Register register)
+        public async Task<ActionResult> RegisterUser([FromBody] Register register)
         {
             //valida o model state
             //cria o usuario do identity
@@ -40,11 +46,14 @@ namespace DesafioMundi.Controllers
             {
                 UserName = register.Email,
                 Email = register.Email,
-                EmailConfirmed = true
+                EmailConfirmed = true,
+               
             };
 
-            var result = await _userManager.CreateAsync(user, register.ConfirmPassword);
-            if (!result.Succeeded) return BadRequest(result.Errors);
+            var result = await _userManager.CreateAsync(user, register.Password);
+            if (!result.Succeeded) 
+                return BadRequest(result.Errors);
+            
             await _signInManager.SignInAsync(user, false);
             return Ok(await CreateJwt(register.Email));
         }

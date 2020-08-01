@@ -33,13 +33,13 @@ namespace DesafioMundi
             services.AddScoped<IOrderService, OrderService>();
             services.AddDbContext<MundiContext>(options => options
                 .UseSqlServer(Configuration.GetConnectionString("StringConnect")));
-            //services.AddIdentity<IdentityUser, IdentityRole>()
-            //        .AddEntityFrameworkStores<MundiContext>()
-            //        .AddDefaultTokenProviders();
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<MundiContext>()
-                .AddDefaultTokenProviders();
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                    .AddEntityFrameworkStores<MundiContext>()
+                    .AddDefaultTokenProviders();
+            //services.AddDefaultIdentity<IdentityUser>()
+            //    .AddRoles<IdentityRole>()
+            //    .AddEntityFrameworkStores<MundiContext>()
+            //    .AddDefaultTokenProviders();
 
             //jwt
             //recebe os dados do json appsetting

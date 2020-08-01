@@ -1,2 +1,5 @@
-﻿select *
-from Customers
+﻿
+
+
+select *
+from Charges
