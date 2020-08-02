@@ -26,6 +26,7 @@ namespace DesafioMundi.Services
             string _basicAuthUserName = "sk_test_alLk7EFV2iJ0dm9w";
             string _basicAuthPassword = "";
             var client = new MundiAPIClient(_basicAuthUserName, _basicAuthPassword);
+            //Define estrutura do request para o criar Cartao
             var createCardRequest = new CreateCardRequest
             {
                 Number = creditCard.Number,
@@ -37,23 +38,37 @@ namespace DesafioMundi.Services
                 PrivateLabel = false,
                 Cvv = creditCard.CVV,
             };
-
-            var createCard = client.Customers.CreateCard(id, createCardRequest);
-           
-
-            if (string.IsNullOrEmpty(createCard.Id))
-                throw new InvalidOperationException("Não foi possivel criar cartão");
-            //recupera o cliente e dicionar cartão
-            var saveCustomerCard = _context.Customers.Find(id);
-            saveCustomerCard.creditCard.Add(  new CreditCard
+            GetCardResponse createCard; 
+            //Tenta criar o cartão
+            try
             {
-                Id = createCard.Id,
-                Brand = createCard.Brand,
-                LestFourNumbers = creditCard.Number.Substring(creditCard.Number.Length - 4),
+                 createCard = client.Customers.CreateCard(id, createCardRequest);
+            }
+            catch(Exception e)
+            {
+                throw new InvalidOperationException($"Não foi possivel criar o cartão " +
+                    $"{creditCard.Number.Substring(creditCard.Number.Length - 4)}, devido ao erro: "+e.Message);
+            } 
+            //Tenta Persistir os dados no banco
+            try
+            {
+                var saveCustomerCard = _context.Customers.Find(id);
+                saveCustomerCard.CreditCard.Add(  new CreditCard
+                {
+                    Id = createCard.Id,
+                    Brand = createCard.Brand,
+                    LestFourNumbers = creditCard.Number.Substring(creditCard.Number.Length - 4),
                
-            });
+                });
              
-            _context.SaveChanges();
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw new InvalidOperationException($"Foi criado o Cartão {createCard.Id} para o Cliente {id}, mas não" +
+                $" foi possivel salvar os dados do mesmo no banco de dados devido ao seguinte erro:"+ e.Message);
+
+            }
             return new CreditCardResponse() 
             { 
                 Id = createCard.Id,
@@ -67,12 +82,19 @@ namespace DesafioMundi.Services
             string _basicAuthUserName = "sk_test_alLk7EFV2iJ0dm9w";
             string _basicAuthPassword = "";
             var client = new MundiAPIClient(_basicAuthUserName, _basicAuthPassword);
-            var cards = client.Customers.GetCards(id);
-
-            var idCard = cards.Data.Select(x=>x.Id).ToList(); 
-            if (idCard.Any(x=>x.Equals(null)))//verifica se existe cartão
-                throw new InvalidOperationException("Falha ao recuperar cartão");
-
+            ListCardsResponse cards;
+            //Tenta recuperar os cartões de um cliente a partir da base da mundi
+            try
+            {
+               cards = client.Customers.GetCards(id); 
+            }
+            catch (Exception e)
+            {
+                throw new InvalidOperationException($"Falha ao recuperar os dados do cleinte " +
+                    $"{id} devido ao erro: " + e.Message); 
+            } 
+            //Recupera as informações para montar o CreditCardResponse
+            var idCard = cards.Data.Select(x=>x.Id).ToList();  
             var cardIdList = new List<CreditCardResponse>();
             foreach (var x1 in cards.Data)
             {
@@ -89,10 +111,19 @@ namespace DesafioMundi.Services
         {
             string _basicAuthUserName = "sk_test_alLk7EFV2iJ0dm9w";
             string _basicAuthPassword = "";
-            var client = new MundiAPIClient(_basicAuthUserName, _basicAuthPassword);
-            var cards = client.Customers.GetCard(idCustomer, idCard);
-
-            //falta testar se os dados de card e customer estao correFtos
+            var client = new MundiAPIClient(_basicAuthUserName, _basicAuthPassword); 
+            //tenta recuperar os dados de um cartão espeecífico de um cliente
+            GetCardResponse cards;
+            try
+            {
+            cards = client.Customers.GetCard(idCustomer, idCard);
+            }
+            catch (Exception e)
+            {
+                throw new InvalidOperationException($"Falha ao recuperar os dados do Cleinte " +
+                                    $"{idCustomer} devido ao erro: " + e.Message);
+            }
+            //Recupera as informações para montar o CreditCardResponse
             var creditCard = new List<CreditCardResponse>();
             creditCard.Add(new CreditCardResponse
             {

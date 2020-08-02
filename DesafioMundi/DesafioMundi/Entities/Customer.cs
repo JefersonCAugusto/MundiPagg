@@ -12,7 +12,7 @@ namespace DesafioMundi.Entities
         public string Document { get; set; } //CPF ou CNPJ
 
         public ICollection<Charge> Charges { get; set; }
-        public ICollection<CreditCard> creditCard { get; set; } // reelacionamento com cartão
+        public ICollection<CreditCard> CreditCard { get; set; } // reelacionamento com cartão
     }
 
 }
