@@ -31,23 +31,28 @@ namespace DesafioMundi.Controllers
         }
 
 
-        [HttpGet]
-        public ActionResult Get()
-        {
-            return Ok("Api Ok");
-        }
-        // POST api/<AuthsController>
+        /// <summary>
+        /// Cria um movo usuário
+        /// </summary>
+        /// <remarks>
+        /// Exemplo :
+        /// {
+        /// 	"Email":"jeferson@gmail.com.br",
+        ///    "Password":"1234abC@",
+        ///    "ConfirmPassword":"1234abC@" 
+        /// }
+        /// </remarks>
+        /// <param name="register">Objeto contendo os dados do novo usuário</param>
+        /// <returns>Retonr um token de Bearer com validade de uma hora </returns>
+        
         [HttpPost("NewAcount")]
         public async Task<ActionResult> RegisterUser([FromBody] Register register)
         {
-            //valida o model state
-            //cria o usuario do identity
             var user = new IdentityUser
             {
                 UserName = register.Email,
                 Email = register.Email,
-                EmailConfirmed = true,
-               
+                EmailConfirmed = true
             };
 
             var result = await _userManager.CreateAsync(user, register.Password);
@@ -58,7 +63,22 @@ namespace DesafioMundi.Controllers
             return Ok(await CreateJwt(register.Email));
         }
 
-         
+        /// <summary>
+        /// Faz login na API após expiração do Token
+        /// </summary>
+        /// <remarks>
+        /// Exemplo:
+        ///
+        ///		{
+        ///   	 	"Email":"jefero@gmail.com.br",
+        ///			"Password":"1234abC@" 
+        ///		}	
+        /// 
+        /// </remarks>
+        /// <param name="login">Objeto informado no body contendo usuário e senha</param>
+        /// <returns></returns>
+
+
         [HttpPost("Login")]
         public async Task<ActionResult> LoginAsync([FromBody] Login login)
         {

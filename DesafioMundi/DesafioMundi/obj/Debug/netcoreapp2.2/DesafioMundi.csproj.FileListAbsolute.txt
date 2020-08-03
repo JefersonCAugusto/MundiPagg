@@ -18,3 +18,4 @@ C:\Users\Guto\Desktop\MundiPagg\DesafioMundi\DesafioMundi\bin\Debug\netcoreapp2.
 C:\Users\Guto\Desktop\MundiPagg\DesafioMundi\DesafioMundi\obj\Debug\netcoreapp2.2\DesafioMundi.csprojAssemblyReference.cache
 C:\Users\Guto\Desktop\MundiPagg\DesafioMundi\DesafioMundi\obj\Debug\netcoreapp2.2\DesafioMundi.dll.config
 C:\Users\Guto\Desktop\MundiPagg\DesafioMundi\DesafioMundi\obj\Debug\netcoreapp2.2\DesafioMundi.csproj.CoreCompileInputs.cache
+C:\Users\Guto\Desktop\MundiPagg\DesafioMundi\DesafioMundi\bin\Debug\netcoreapp2.2\DesafioMundi.xml

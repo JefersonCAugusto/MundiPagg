@@ -8,6 +8,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 namespace DesafioMundi.Controllers
 {
+    [Produces("application/Json")]
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
@@ -19,20 +20,54 @@ namespace DesafioMundi.Controllers
         {
             _customerService = customerService;
         }
-
+ 
+        /// <summary>
+        /// Obtem uma lista com todos os Customers
+        /// </summary>
+        /// <returns>Objetos Customers </returns>
+      
         [HttpGet]
         public ActionResult<IEnumerable<Customer>> Get()
         {
             return _customerService.GetCustomer().ToList();
         }
-
+     
+        /// <summary>
+        /// Obtem informações de um customer 
+        /// </summary>
+        /// <remarks>
+        /// Exemplo: 
+        /// https://localhost:44300/api/Customers/cus_ajneAM0H2ztqe6bB
+        /// </remarks>
+        /// <param name="id">Id do Customer informado na rota</param>
+        /// <returns>Objeto Customer  </returns>
+    
         [HttpGet("{id}")]
         public ActionResult<Customer> Get(string id)
         {
             return _customerService.GetCustomer(id);
         }
+        /// <summary>
+        /// Inclui um novo Customer
+        /// </summary>
+        /// <remarks>
+        /// Exemplo de request: 
+        /// 
+        ///      {
+        ///          "Name": "Beto frigueredo", 
+        ///          "Email": "beto.f@MeuEmail.com",
+        ///          "Type": "individual",
+        ///          "Gender": "male",
+        ///          "Document": "33211455535" 
+        ///      }
+        ///      
+        ///
+        /// 
+        /// </remarks>
+        /// <param name="customer">Objeto Customer</param>
+        /// <returns>Retorna o Id do novo Customer</returns>
 
-        [HttpPost] 
+    [HttpPost] 
         public ActionResult<CustomerResponse> Post([FromBody] Customer customer)
         {
             return _customerService.PostCustomer(customer);

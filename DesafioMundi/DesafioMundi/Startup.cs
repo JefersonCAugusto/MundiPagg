@@ -11,6 +11,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System;
+using System.IO;
+using System.Reflection;
 using System.Text;
 
 namespace DesafioMundi
@@ -36,21 +40,15 @@ namespace DesafioMundi
             services.AddIdentity<IdentityUser, IdentityRole>()
                     .AddEntityFrameworkStores<MundiContext>()
                     .AddDefaultTokenProviders();
-            //services.AddDefaultIdentity<IdentityUser>()
-            //    .AddRoles<IdentityRole>()
-            //    .AddEntityFrameworkStores<MundiContext>()
-            //    .AddDefaultTokenProviders();
 
-            //jwt
-            //recebe os dados do json appsetting
+
+
+            //jwt 
             var appSettingsSection = Configuration.GetSection("AppSettings");
-
             //faz a classe Sppsettings responder aos dados do arquivo json Appsetting.json
             services.Configure<AppSettings>(appSettingsSection);
-
             var appSettings = appSettingsSection.Get<AppSettings>();
             var key = Encoding.ASCII.GetBytes(appSettings.Secret);
-
             //informa que trabalhara com Tokens para autenticar ususarios
             services.AddAuthentication(x =>
             {
@@ -74,6 +72,41 @@ namespace DesafioMundi
                         ValidIssuer = appSettings.Issuer
                     };
                 });
+            //swagger
+            services.AddSwaggerGen(x =>
+                {
+                    //configurações do desenvolvedor 
+                    x.SwaggerDoc("v1", new OpenApiInfo
+                    {
+                        Version = "v1",
+                        Title = "MundiAPI",
+                        TermsOfService = new Uri("https://localhost/"),
+                        Description = "Desafio MundiPagg-Stone",
+                        Contact = new OpenApiContact
+                        {
+                            Name = "Jeferson Augusto",
+                            Email = "carvalho.jeferson@gmail.com",
+                            Url = new Uri("https://www.linkedin.com/in/jeferson-augusto-aa611164/")
+
+                        },
+                        License = new OpenApiLicense
+                        {
+                            Name = "Home",
+                            Url = new Uri("https://localhost/")
+                        }
+
+
+
+                    });
+                    // Configurações para os comentários XMl
+                    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                    x.IncludeXmlComments(xmlPath);
+
+                });
+
+
+       
         }
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -90,8 +123,14 @@ namespace DesafioMundi
 
             app.UseHttpsRedirection();
             app.UseAuthentication();
+
+            app.UseSwaggerUI(x =>
+            {
+                x.SwaggerEndpoint("/swagger/v1/swagger.Json", "Desafio Stone");
+            });
+            app.UseSwagger();
             app.UseMvc();
-            
+
         }
     }
 }

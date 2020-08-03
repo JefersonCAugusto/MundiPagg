@@ -1,0 +1,155 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>DesafioMundi</name>
+    </assembly>
+    <members>
+        <member name="M:DesafioMundi.Controllers.AuthController.RegisterUser(DesafioMundi.Entities.AuthIdentity.Register)">
+            <summary>
+            Cria um movo usuário
+            </summary>
+            <remarks>
+            Exemplo :
+            {
+            	"Email":"jeferson@gmail.com.br",
+               "Password":"1234abC@",
+               "ConfirmPassword":"1234abC@" 
+            }
+            </remarks>
+            <param name="register">Objeto contendo os dados do novo usuário</param>
+            <returns>Retonr um token de Bearer com validade de uma hora </returns>
+        </member>
+        <member name="M:DesafioMundi.Controllers.AuthController.LoginAsync(DesafioMundi.Entities.AuthIdentity.Login)">
+             <summary>
+             Faz login na API após expiração do Token
+             </summary>
+             <remarks>
+             Exemplo:
+            
+            		{
+               	 	"Email":"jefero@gmail.com.br",
+            			"Password":"1234abC@" 
+            		}	
+             
+             </remarks>
+             <param name="login">Objeto informado no body contendo usuário e senha</param>
+             <returns></returns>
+        </member>
+        <member name="M:DesafioMundi.Controllers.CardsController.Get(System.String,System.String)">
+            <summary>
+            Obtem os dados do cartão de crédito de um customer
+            </summary> 
+            <param name="idcustomer"> Id do Customer</param>
+            <param name="idcard">Id do Cartão</param>
+            <returns>Retorna um objeto com  dados do cartão de crédito</returns>
+        </member>
+        <member name="M:DesafioMundi.Controllers.CardsController.Post(System.String,DesafioMundi.Entities.CreditCard)">
+            <summary>
+            Cria um cartão de crédito para um cliente existente na base
+            </summary>
+            
+            <remarks> 
+            Exemplo:
+            	{
+                	"Number":"342793631858229",
+                	"CVV":"111",
+                	"ExpMonth":"11",
+                	"ExpYear":"30",
+                	"Brand":"visa"
+            	}	
+            
+            </remarks>
+            <param name="id">Id do Customer</param>
+            <param name="creditCard">Objeto Cartão de crédito</param>
+            <returns>Retorna o Id do novo cartão</returns>
+        </member>
+        <member name="M:DesafioMundi.Controllers.CustomersController.Get">
+            <summary>
+            Obtem uma lista com todos os Customers
+            </summary>
+            <returns>Objetos Customers </returns>
+        </member>
+        <member name="M:DesafioMundi.Controllers.CustomersController.Get(System.String)">
+            <summary>
+            Obtem informações de um customer 
+            </summary>
+            <remarks>
+            Exemplo: 
+            https://localhost:44300/api/Customers/cus_ajneAM0H2ztqe6bB
+            </remarks>
+            <param name="id">Id do Customer informado na rota</param>
+            <returns>Objeto Customer  </returns>
+        </member>
+        <member name="M:DesafioMundi.Controllers.CustomersController.Post(DesafioMundi.Entities.Customer)">
+             <summary>
+             Inclui um novo Customer
+             </summary>
+             <remarks>
+             Exemplo de request: 
+             
+                  {
+                      "Name": "Beto frigueredo", 
+                      "Email": "beto.f@MeuEmail.com",
+                      "Type": "individual",
+                      "Gender": "male",
+                      "Document": "33211455535" 
+                  }
+                  
+            
+             
+             </remarks>
+             <param name="customer">Objeto Customer</param>
+             <returns>Retorna o Id do novo Customer</returns>
+        </member>
+        <member name="M:DesafioMundi.Controllers.OrdersController.Get">
+            <summary>
+            Solicita todas as Orders
+            </summary>
+            <returns>Retorna um dicionário contendo Id da Order associado ao Customer</returns>
+        </member>
+        <member name="M:DesafioMundi.Controllers.OrdersController.Get(System.String)">
+            <summary>
+            Solicita ordens de serviço de um Customer específico 
+            </summary>
+            <remarks>
+            </remarks>
+            <param name="id">Id do Customer</param>
+            <returns>Retonra uma Lista de Orders do Customer informado</returns>
+        </member>
+        <member name="M:DesafioMundi.Controllers.OrdersController.CreateOrder(System.String,System.String,DesafioMundi.Entities.Item[])">
+             <summary> 
+             Cria uma Order
+             </summary>
+             <remarks>
+             Exemplo de request:
+             [
+                 {
+                     "Amount":"10000",
+                     "Description":"Mastro de bandeira", 
+                     "Quantity":"2"
+                 },
+                 {
+                     "Amount":"1",
+                     "Description":"balinha de um centavo", 
+                     "Quantity":"2"
+                 },
+                 {
+                     "Amount":"100",
+                     "Description":"Mouse Ps2", 
+                     "Quantity":"2"
+                 },
+                 {
+                     "Amount":"1500",
+                     "Description":"Fone de ouvido", 
+                     "Quantity":"15"
+                 }
+             ]
+            
+             </remarks>
+             <param name="customerId">Id do Customer </param>
+             <param name="cardId">Id do Cartão pertendente ao Customer</param>
+             <param name="item">Aray de objetos contendo os itens do pedido</param>
+             <returns></returns>
+        </member>
+    </members>
+</doc>
