@@ -37,8 +37,14 @@
         </member>
         <member name="M:DesafioMundi.Controllers.CardsController.Get(System.String,System.String)">
             <summary>
-            Obtem os dados do cartão de crédito de um customer
+            Obtem os dados de Cards que um cliente possui ou dados de um Card especifico 
             </summary> 
+            <remarks>
+            Exemplo:
+            https://localhost:44300/api/Cards/cus_QzEVeB4tOHpAm6Ja  ou   
+            https://localhost:44300/api/Cards/cus_QzEVeB4tOHpAm6Ja/card_m3O2g9dUEUyvKb5M     
+            
+            </remarks>
             <param name="idcustomer"> Id do Customer</param>
             <param name="idcard">Id do Cartão</param>
             <returns>Retorna um objeto com  dados do cartão de crédito</returns>
@@ -73,33 +79,25 @@
             <summary>
             Obtem informações de um customer 
             </summary>
-            <remarks>
-            Exemplo: 
-            https://localhost:44300/api/Customers/cus_ajneAM0H2ztqe6bB
-            </remarks>
-            <param name="id">Id do Customer informado na rota</param>
+            <param name="id">Id do Customer</param>
             <returns>Objeto Customer  </returns>
         </member>
         <member name="M:DesafioMundi.Controllers.CustomersController.Post(DesafioMundi.Entities.Customer)">
-             <summary>
-             Inclui um novo Customer
-             </summary>
-             <remarks>
-             Exemplo de request: 
-             
-                  {
-                      "Name": "Beto frigueredo", 
-                      "Email": "beto.f@MeuEmail.com",
-                      "Type": "individual",
-                      "Gender": "male",
-                      "Document": "33211455535" 
-                  }
-                  
-            
-             
-             </remarks>
-             <param name="customer">Objeto Customer</param>
-             <returns>Retorna o Id do novo Customer</returns>
+            <summary>
+            Inclui um novo Customer
+            </summary>
+            <remarks>
+            Exemplo de request: 
+                {
+                    "Name": "Beto frigueredo", 
+                    "Email": "beto.f@MeuEmail.com",
+                    "Type": "individual",
+                    "Gender": "male",
+                    "Document": "33211455535" 
+                }
+            </remarks>
+            <param name="customer">Objeto Customer</param>
+            <returns>Retorna o Id do novo Customer</returns>
         </member>
         <member name="M:DesafioMundi.Controllers.OrdersController.Get">
             <summary>

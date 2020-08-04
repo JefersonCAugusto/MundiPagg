@@ -52,20 +52,22 @@ namespace DesafioMundi.Services
             //Tenta Persistir os dados no banco
             try
             {
-                var saveCustomerCard = _context.Customers.Find(customerId);
-                saveCustomerCard.CreditCard.Add(  new CreditCard
+                var saveCustomerCard = _context.Customers.FirstOrDefault(x => x.Id == customerId);
+                saveCustomerCard.CreditCard = new List<CreditCard>
                 {
-                    Id = createCard.Id,
-                    Brand = createCard.Brand,
-                    LestFourNumbers = creditCard.Number.Substring(creditCard.Number.Length - 4),
-               
-                });
+                   new CreditCard
+                        {
+                            Id = createCard.Id,
+                            Brand = createCard.Brand,
+                            LestFourNumbers = creditCard.Number.Substring(creditCard.Number.Length - 4)
+                        }
+                };
              
                 _context.SaveChanges();
             }
             catch (Exception e)
             {
-                throw new InvalidOperationException($"Foi criado o Cartão {createCard.Id} para o Cliente {customerId}, mas não" +
+                throw new InvalidOperationException($"Foi criado o Cartão {createCard.Id} para o Cliente {customerId.Split(" ")[0]}, mas não" +
                 $" foi possivel salvar os dados do mesmo no banco de dados devido ao seguinte erro:"+ e.Message);
 
             }

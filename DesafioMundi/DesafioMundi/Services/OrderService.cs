@@ -2,6 +2,7 @@
 using DesafioMundi.Entities;
 using DesafioMundi.Entities.Response;
 using DesafioMundi.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using MundiAPI.PCL;
 using MundiAPI.PCL.Models;
 using System;
@@ -83,9 +84,10 @@ namespace DesafioMundi.Services
                     Quantity = items.Quantity, 
                 });
                 //Tenta persistir os dados no banco
-                try
-                {
-                    var customer = _context.Customers.Find(customerId);
+                   
+                    var customer = _context.CreditCards.Where(x => x.Id == cardId).Select(x => x.Customer).FirstOrDefault();
+                    var testeCustomer = customer.Name;
+
                     customer.Charges = new List<Charge>()
                     {
                         new Charge
@@ -93,21 +95,23 @@ namespace DesafioMundi.Services
                                
                                 Amount = listCharges.Amount,
                                 Code = listCharges.Code,
-                               // CreditCard = _context.CreditCards.Find(cardId),
-
+                                Id = listCharges.Id,
+                                
+                                //CreditCardId = _context.CreditCards.Find(cardId),
                                 // Customer = _context.Customers.Find(customerId),
-
                                 Order = new Order()
                                 {
                                     Id = pedido.Id,
                                     Code = pedido.Code,
                                     Status = pedido.Status,
-                                    Items = saveItem
-                                },
-                                Id = listCharges.Id
+                                    Items =  saveItem
+                                }
                             }
                     };
                     _context.SaveChanges();
+                try
+                {
+                    int i = 4;
                 }
                 catch (Exception e)
                 {

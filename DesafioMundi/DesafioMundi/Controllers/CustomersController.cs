@@ -35,11 +35,7 @@ namespace DesafioMundi.Controllers
         /// <summary>
         /// Obtem informações de um customer 
         /// </summary>
-        /// <remarks>
-        /// Exemplo: 
-        /// https://localhost:44300/api/Customers/cus_ajneAM0H2ztqe6bB
-        /// </remarks>
-        /// <param name="id">Id do Customer informado na rota</param>
+        /// <param name="id">Id do Customer</param>
         /// <returns>Objeto Customer  </returns>
     
         [HttpGet("{id}")]
@@ -52,17 +48,13 @@ namespace DesafioMundi.Controllers
         /// </summary>
         /// <remarks>
         /// Exemplo de request: 
-        /// 
-        ///      {
-        ///          "Name": "Beto frigueredo", 
-        ///          "Email": "beto.f@MeuEmail.com",
-        ///          "Type": "individual",
-        ///          "Gender": "male",
-        ///          "Document": "33211455535" 
-        ///      }
-        ///      
-        ///
-        /// 
+        ///     {
+        ///         "Name": "Beto frigueredo", 
+        ///         "Email": "beto.f@MeuEmail.com",
+        ///         "Type": "individual",
+        ///         "Gender": "male",
+        ///         "Document": "33211455535" 
+        ///     }
         /// </remarks>
         /// <param name="customer">Objeto Customer</param>
         /// <returns>Retorna o Id do novo Customer</returns>

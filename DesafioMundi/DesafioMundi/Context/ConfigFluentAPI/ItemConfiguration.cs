@@ -10,9 +10,7 @@ namespace DesafioMundi.Context.ConfigFluentAPI
         public void Configure(EntityTypeBuilder<Item> builder)
         {
             builder.Property(x => x.Id).ValueGeneratedNever();
-            builder.HasOne(x => x.Order)
-                   .WithMany(x => x.Items)
-                   .HasForeignKey(x => x.OrderId);
+            builder.HasKey(x => x.Id);
         }
     }
 }

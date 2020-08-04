@@ -91,8 +91,8 @@ namespace DesafioMundi.Services
                 Name = customer.Name,
                 Email = customer.Email,
                 Document = customer.Document,
-                Gender = customer.Gender,
-                Type = customer.Type
+                Gender = customer.Gender.ToLower(),
+                Type = customer.Type.ToLower()
             };
             //Tenta criar o Customer
             GetCustomerResponse response;

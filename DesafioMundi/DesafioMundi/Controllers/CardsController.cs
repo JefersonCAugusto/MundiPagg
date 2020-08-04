@@ -22,8 +22,14 @@ namespace DesafioMundi.Controllers
         }
 
         /// <summary>
-        /// Obtem os dados do cartão de crédito de um customer
+        /// Obtem os dados de Cards que um cliente possui ou dados de um Card especifico 
         /// </summary> 
+        /// <remarks>
+        /// Exemplo:
+        /// https://localhost:44300/api/Cards/cus_QzEVeB4tOHpAm6Ja  ou   
+        /// https://localhost:44300/api/Cards/cus_QzEVeB4tOHpAm6Ja/card_m3O2g9dUEUyvKb5M     
+        /// 
+        /// </remarks>
         /// <param name="idcustomer"> Id do Customer</param>
         /// <param name="idcard">Id do Cartão</param>
         /// <returns>Retorna um objeto com  dados do cartão de crédito</returns>
