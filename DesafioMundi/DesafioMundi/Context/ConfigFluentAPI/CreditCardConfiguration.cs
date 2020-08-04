@@ -7,7 +7,10 @@ namespace DesafioMundi.Context.ConfigFluentAPI
     public class CreditCardConfiguration : IEntityTypeConfiguration<CreditCard>
     {
         public void Configure(EntityTypeBuilder<CreditCard> builder)
-        { 
+        {
+            builder.HasOne(x => x.Customer)
+                    .WithMany(x => x.CreditCard)
+                    .HasForeignKey(x => x.CustomerID);
             builder.HasKey(x => x.Id); 
             builder.Ignore(x => x.ExpMonth)
                    .Ignore(x => x.CVV)

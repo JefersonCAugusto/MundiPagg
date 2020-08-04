@@ -39,7 +39,14 @@ namespace DesafioMundi.Services
             List<Customer> customer = new List<Customer>();
             foreach (var cus in response.Data.Select(x => x))
             {
-                customer.Add(new Customer { Name = cus.Name, Email = cus.Email, Id = cus.Id, Document = cus.Document, Type = cus.Type });
+                customer.Add(new Customer 
+                { 
+                    Name = cus.Name, 
+                    Email = cus.Email, 
+                    Id = cus.Id, 
+                    Document = cus.Document, 
+                    Type = cus.Type 
+                });
             }
             return customer;
         }
@@ -95,6 +102,7 @@ namespace DesafioMundi.Services
             }
             catch (Exception e)
             {
+               
                 throw new InvalidOperationException($"Não foi possivel criar o customer " +
                     $"{customer.Name}, devido ao erro: " + e.Message);
             }
@@ -111,7 +119,10 @@ namespace DesafioMundi.Services
                 throw new InvalidOperationException($"Foi criado o customer {response.Name.Split(" ")[0]} com o Id {response.Id}, mas não" +
                 $" foi possivel salvar os dados do mesmo no banco de dados devido ao seguinte erro:" + e.Message); 
             } 
-            return new CustomerResponse {Id= response.Id }; 
+            return new CustomerResponse 
+            {
+                Id= response.Id 
+            }; 
         }  
     }
 }

@@ -9,9 +9,9 @@ namespace DesafioMundi.Context.ConfigFluentAPI
     {
         public void Configure(EntityTypeBuilder<Charge> builder)
         { 
-            builder.HasOne(x => x.CreditCard)
-                   .WithMany(y => y.Charges)
-                   .HasForeignKey(z => z.CreditCardId);
+            //builder.HasOne(x => x.CreditCard)
+            //       .WithMany(y => y.Charges)
+            //       .HasForeignKey(z => z.CreditCardId);
             builder.HasOne(x => x.Customer)
                    .WithMany(x => x.Charges)
                    .HasForeignKey(x => x.CustomerId);

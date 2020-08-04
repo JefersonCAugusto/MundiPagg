@@ -20,9 +20,9 @@ namespace DesafioMundi.Services
             _context = context;
         }
 
-        public CreditCardResponse CreateCard(string id, CreditCard creditCard)
+        public CreditCardResponse CreateCard(string customerId, CreditCard creditCard)
         {
-            var customer = _customerService.GetCustomer(id);
+            var customer = _customerService.GetCustomer(customerId);
             string _basicAuthUserName = "sk_test_alLk7EFV2iJ0dm9w";
             string _basicAuthPassword = "";
             var client = new MundiAPIClient(_basicAuthUserName, _basicAuthPassword);
@@ -42,7 +42,7 @@ namespace DesafioMundi.Services
             //Tenta criar o cartão
             try
             {
-                 createCard = client.Customers.CreateCard(id, createCardRequest);
+                 createCard = client.Customers.CreateCard(customerId, createCardRequest);
             }
             catch(Exception e)
             {
@@ -52,7 +52,7 @@ namespace DesafioMundi.Services
             //Tenta Persistir os dados no banco
             try
             {
-                var saveCustomerCard = _context.Customers.Find(id);
+                var saveCustomerCard = _context.Customers.Find(customerId);
                 saveCustomerCard.CreditCard.Add(  new CreditCard
                 {
                     Id = createCard.Id,
@@ -65,7 +65,7 @@ namespace DesafioMundi.Services
             }
             catch (Exception e)
             {
-                throw new InvalidOperationException($"Foi criado o Cartão {createCard.Id} para o Cliente {id}, mas não" +
+                throw new InvalidOperationException($"Foi criado o Cartão {createCard.Id} para o Cliente {customerId}, mas não" +
                 $" foi possivel salvar os dados do mesmo no banco de dados devido ao seguinte erro:"+ e.Message);
 
             }
@@ -86,7 +86,7 @@ namespace DesafioMundi.Services
             //Tenta recuperar os cartões de um cliente a partir da base da mundi
             try
             {
-               cards = client.Customers.GetCards(id); 
+               cards = client.Customers.GetCards(id);
             }
             catch (Exception e)
             {

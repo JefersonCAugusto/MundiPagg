@@ -12,7 +12,7 @@ namespace DesafioMundi.Context.ConfigFluentAPI
             builder.HasMany(x => x.Charges)
                     .WithOne(x => x.Customer)
                     .HasForeignKey(x => x.CustomerId);
-    
+
             builder.Property(x => x.Id).ValueGeneratedNever();
             builder.Property(x => x.Name).IsRequired().HasMaxLength(35);
             builder.Property(x => x.Email).IsRequired().HasMaxLength(45);

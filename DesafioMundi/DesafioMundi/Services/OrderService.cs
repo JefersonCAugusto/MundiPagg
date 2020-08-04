@@ -24,7 +24,7 @@ namespace DesafioMundi.Services
             string _basicAuthUserName = "sk_test_alLk7EFV2iJ0dm9w";
             string _basicAuthPassword = "";
             var client = new MundiAPIClient(_basicAuthUserName, _basicAuthPassword); 
-            //Cria uma lista de itens 
+            //Recupera a lista de itens 
             var listitems = new List<CreateOrderItemRequest>();
             foreach (var items in  item)
             { 
@@ -35,7 +35,7 @@ namespace DesafioMundi.Services
                     Quantity = items.Quantity 
                 }); 
             } 
-            //cria forma de pagamento
+            //cria Lista com formas de pagamento
             var payments = new List<CreatePaymentRequest>()
             {
                 new CreatePaymentRequest()
@@ -63,7 +63,7 @@ namespace DesafioMundi.Services
             }
             catch (Exception e)
             {
-                throw new InvalidOperationException($"Não foi possivel criar o pedido " +
+                throw new InvalidOperationException($"Não foi possivel fechar o pedido " +
                     $", devido ao erro: " + e.Message);
             }
 
@@ -93,7 +93,8 @@ namespace DesafioMundi.Services
                                
                                 Amount = listCharges.Amount,
                                 Code = listCharges.Code,
-                                CreditCard = _context.CreditCards.Find(cardId),
+                               // CreditCard = _context.CreditCards.Find(cardId),
+
                                 // Customer = _context.Customers.Find(customerId),
 
                                 Order = new Order()
