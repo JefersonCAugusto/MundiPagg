@@ -23,25 +23,24 @@ namespace DesafioMundi.Migrations
                 {
                     b.Property<string>("Id");
 
+                    b.Property<string>("CustomerId");
+
+                    b.Property<string>("OrderId");
+
                     b.Property<int>("Amount");
 
                     b.Property<string>("Code");
 
                     b.Property<string>("CreditCardId");
 
-                    b.Property<string>("CustomerId");
-
-                    b.Property<string>("OrderId");
-
-                    b.HasKey("Id");
+                    b.HasKey("Id", "CustomerId", "OrderId");
 
                     b.HasIndex("CreditCardId");
 
                     b.HasIndex("CustomerId");
 
                     b.HasIndex("OrderId")
-                        .IsUnique()
-                        .HasFilter("[OrderId] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("Charges");
                 });
@@ -290,23 +289,25 @@ namespace DesafioMundi.Migrations
 
             modelBuilder.Entity("DesafioMundi.Entities.Charge", b =>
                 {
-                    b.HasOne("DesafioMundi.Entities.CreditCard", "CreditCard")
+                    b.HasOne("DesafioMundi.Entities.CreditCard")
                         .WithMany("Charges")
                         .HasForeignKey("CreditCardId");
 
                     b.HasOne("DesafioMundi.Entities.Customer", "Customer")
                         .WithMany("Charges")
-                        .HasForeignKey("CustomerId");
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("DesafioMundi.Entities.Order", "Order")
                         .WithOne("Charge")
-                        .HasForeignKey("DesafioMundi.Entities.Charge", "OrderId");
+                        .HasForeignKey("DesafioMundi.Entities.Charge", "OrderId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("DesafioMundi.Entities.CreditCard", b =>
                 {
                     b.HasOne("DesafioMundi.Entities.Customer", "Customer")
-                        .WithMany("creditCard")
+                        .WithMany("CreditCard")
                         .HasForeignKey("CustomerID");
                 });
 

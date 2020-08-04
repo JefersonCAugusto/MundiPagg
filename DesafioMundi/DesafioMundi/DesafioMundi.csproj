@@ -11,8 +11,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20200804181342_Atualizações.cs" />
-    <Compile Remove="Migrations\20200804181342_Atualizações.Designer.cs" />
+    <Compile Remove="Migrations\20200804211551_atualização.cs" />
+    <Compile Remove="Migrations\20200804211551_atualização.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

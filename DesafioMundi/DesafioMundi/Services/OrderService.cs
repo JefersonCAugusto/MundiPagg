@@ -83,9 +83,10 @@ namespace DesafioMundi.Services
                     Id = items.Id,
                     Quantity = items.Quantity, 
                 });
-                //Tenta persistir os dados no banco
-                   
-                    var customer = _context.CreditCards.Where(x => x.Id == cardId).Select(x => x.Customer).FirstOrDefault();
+            }
+            //Tenta persistir os dados no banco
+
+            var customer = _context.CreditCards.Where(x => x.Id == cardId).Select(x => x.Customer).FirstOrDefault();
                     var testeCustomer = customer.Name;
 
                     customer.Charges = new List<Charge>()
@@ -97,7 +98,7 @@ namespace DesafioMundi.Services
                                 Code = listCharges.Code,
                                 Id = listCharges.Id,
                                 
-                                //CreditCardId = _context.CreditCards.Find(cardId),
+                                CreditCardId =cardId,
                                 // Customer = _context.Customers.Find(customerId),
                                 Order = new Order()
                                 {
@@ -105,6 +106,7 @@ namespace DesafioMundi.Services
                                     Code = pedido.Code,
                                     Status = pedido.Status,
                                     Items =  saveItem
+                                    
                                 }
                             }
                     };
@@ -119,7 +121,7 @@ namespace DesafioMundi.Services
                         $"com a cobrança {listCharges.Id}, mas não foi possivel persistir os daods no banco de dados " +
                         $"devido ao erro: " + e.Message);
                 } 
-            } 
+          
           //monta response
             var response = new OrderResponse()
             {

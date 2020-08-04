@@ -35,12 +35,11 @@ namespace DesafioMundi.Controllers
         /// Cria um movo usuário
         /// </summary>
         /// <remarks>
-        /// Exemplo :
-        /// {
-        /// 	"Email":"jeferson@gmail.com.br",
-        ///    "Password":"1234abC@",
-        ///    "ConfirmPassword":"1234abC@" 
-        /// }
+        ///     {
+        ///         "Email":"jeferson@gmail.com.br",
+        ///         "Password":"1234abC@",
+        ///         "ConfirmPassword":"1234abC@" 
+        ///     }
         /// </remarks>
         /// <param name="register">Objeto contendo os dados do novo usuário</param>
         /// <returns>Retonr um token de Bearer com validade de uma hora </returns>
@@ -67,13 +66,10 @@ namespace DesafioMundi.Controllers
         /// Faz login na API após expiração do Token
         /// </summary>
         /// <remarks>
-        /// Exemplo:
-        ///
         ///		{
         ///   	 	"Email":"jefero@gmail.com.br",
         ///			"Password":"1234abC@" 
         ///		}	
-        /// 
         /// </remarks>
         /// <param name="login">Objeto informado no body contendo usuário e senha</param>
         /// <returns></returns>

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DesafioMundi.Migrations
 {
     [DbContext(typeof(MundiContext))]
-    [Migration("20200801033345_CustomerMasLenghtUpdate")]
-    partial class CustomerMasLenghtUpdate
+    [Migration("20200804183923_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -292,7 +292,7 @@ namespace DesafioMundi.Migrations
 
             modelBuilder.Entity("DesafioMundi.Entities.Charge", b =>
                 {
-                    b.HasOne("DesafioMundi.Entities.CreditCard", "CreditCard")
+                    b.HasOne("DesafioMundi.Entities.CreditCard")
                         .WithMany("Charges")
                         .HasForeignKey("CreditCardId");
 
@@ -308,7 +308,7 @@ namespace DesafioMundi.Migrations
             modelBuilder.Entity("DesafioMundi.Entities.CreditCard", b =>
                 {
                     b.HasOne("DesafioMundi.Entities.Customer", "Customer")
-                        .WithMany("creditCard")
+                        .WithMany("CreditCard")
                         .HasForeignKey("CustomerID");
                 });
 

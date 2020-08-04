@@ -6,7 +6,7 @@ namespace DesafioMundi.Entities
     {
         public string Id { get; set; }
         public string Code { get; set; }
-        public string Status { get; set; } 
+        public string Status { get; set; }
         public string ChargeId { get; set; }
         public Charge Charge { get; set; }
 
