@@ -9,7 +9,6 @@ namespace DesafioMundi.Entities
         public string Status { get; set; }
         public string ChargeId { get; set; }
         public Charge Charge { get; set; }
-
         public ICollection<Item> Items { get; set; }
     }
 }

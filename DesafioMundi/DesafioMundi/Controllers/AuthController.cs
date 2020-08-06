@@ -9,8 +9,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using System.Threading.Tasks;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
+ 
 namespace DesafioMundi.Controllers
 {
     [Route("api/[controller]")]
@@ -77,8 +76,7 @@ namespace DesafioMundi.Controllers
 
         [HttpPost("Login")]
         public async Task<ActionResult> LoginAsync([FromBody] Login login)
-        {
-            //valida o model state
+        { 
             var result= await _signInManager
                 .PasswordSignInAsync(login.Email, login.Password, false, true);
             if (result.Succeeded) return Ok(await CreateJwt(login.Email));

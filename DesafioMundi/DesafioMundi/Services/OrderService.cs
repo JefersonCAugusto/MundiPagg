@@ -1,8 +1,7 @@
 ﻿using DesafioMundi.Context;
 using DesafioMundi.Entities;
 using DesafioMundi.Entities.Response;
-using DesafioMundi.Services.Interfaces;
-using Microsoft.EntityFrameworkCore;
+using DesafioMundi.Services.Interfaces; 
 using MundiAPI.PCL;
 using MundiAPI.PCL.Models;
 using System;
@@ -87,8 +86,10 @@ namespace DesafioMundi.Services
             //Tenta persistir os dados no banco
 
             var customer = _context.CreditCards.Where(x => x.Id == cardId).Select(x => x.Customer).FirstOrDefault();
-                    var testeCustomer = customer.Name;
+                    
 
+                try
+                {
                     customer.Charges = new List<Charge>()
                     {
                         new Charge
@@ -111,9 +112,7 @@ namespace DesafioMundi.Services
                             }
                     };
                     _context.SaveChanges();
-                try
-                {
-                    int i = 4;
+                    
                 }
                 catch (Exception e)
                 {

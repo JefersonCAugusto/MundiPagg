@@ -126,14 +126,17 @@ namespace DesafioMundi.Services
                                     $"{idCustomer} devido ao erro: " + e.Message);
             }
             //Recupera as informações para montar o CreditCardResponse
-            var creditCard = new List<CreditCardResponse>();
-            creditCard.Add(new CreditCardResponse
-            {
-                Id= cards.Id,
-                Brand = cards.Brand,
-                LestFourNumbers = cards.LastFourDigits
-            }); 
-           return creditCard;
+            var creditCard = new List<CreditCardResponse> 
+            { new CreditCardResponse
+
+
+                {
+                    Id = cards.Id,
+                    Brand = cards.Brand,
+                    LestFourNumbers = cards.LastFourDigits
+                }
+            };
+            return creditCard;
         } 
     }
 

@@ -6,13 +6,12 @@ namespace DesafioMundi.Entities
     {
         public string Name { get; set; } 
         public string Id { get; set; }   
-        public string Email { get; set; }// dado unico
-        public string Type { get; set; } // indivicual ou company (Criar Enum)
-        public string Gender { get; set; } //male ou female (criar enum)
-        public string Document { get; set; } //CPF ou CNPJ
-
+        public string Email { get; set; } 
+        public string Type { get; set; }  
+        public string Gender { get; set; } 
+        public string Document { get; set; } 
         public ICollection<Charge> Charges { get; set; }
-        public ICollection<CreditCard> CreditCard { get; set; } // reelacionamento com cartão
+        public ICollection<CreditCard> CreditCard { get; set; } 
     }
 
 }

@@ -59,7 +59,7 @@ namespace DesafioMundi.Controllers
         /// <param name="customer">Objeto Customer</param>
         /// <returns>Retorna o Id do novo Customer</returns>
 
-    [HttpPost] 
+         [HttpPost] 
         public ActionResult<CustomerResponse> Post([FromBody] Customer customer)
         {
             return _customerService.PostCustomer(customer);
